@@ -1,6 +1,7 @@
 import DataStore from "./base/DateStore.js";
 import UpPipe from "./runtime/UpPipe.js";
 import DownPipe from "./runtime/DownPipe.js";
+import {stopmusic} from './wxAPI.js';
 
 //控制游戏逻辑
 
@@ -67,13 +68,14 @@ class Director{
             }
             if(birdBorder.left>pipes[0].x+pipes[0].width && this.scoreSwitch){
                 score.scoreNumber++;
+                playthrough();
                 this.scoreSwitch = false;
                 let level = this.dataStore.get('level');
-                if(score.scoreNumber%10==0){
+                if(score.scoreNumber%8==0){
                     level++;
                 }
-                if(level>8){
-                    level=8;
+                if(level>10){
+                    level=10;
                 }
                 this.dataStore.put('level',level);
             }
@@ -100,6 +102,7 @@ class Director{
             this.dataStore.get('land').draw();
             this.id = requestAnimationFrame(()=>this.run());
         }else{
+          stopmusic()
             cancelAnimationFrame(this.id);
             this.dataStore.get('startButton').draw();
             const ctx = this.dataStore.ctx;

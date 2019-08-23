@@ -1,5 +1,5 @@
 export const Resourses=[
-    ['background','res/background.jpg'],
+    ['background','res/background.png'],
     ['birds','res/birds.png'],
     ['land','res/land.png'],
     ['pieDown','res/pie_down.png'],

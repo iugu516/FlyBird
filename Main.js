@@ -6,6 +6,7 @@ import Land from "./js/runtime/Land.js";
 import Birds from "./js/player/Birds.js";
 import Score from "./js/player/Score.js";
 import StartButton from "./js/player/StartButton.js";
+import {playmusic} from './js/wxAPI.js';
 
 //控制主流程
 class Main{
@@ -24,6 +25,7 @@ class Main{
         this.dataStore.canvas = this.canvas;
         this.dataStore.ctx = this.ctx;
         this.dataStore.res = map;
+        playmusic();
         this.init();
     }
     //游戏初始化
