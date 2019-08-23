@@ -1,0 +1,55 @@
+项目结构：
+  |--index.html  页面，模拟手机屏幕(转移到微信开发者工具中之后，就不需要该页面了)
+  |--game.js  小游戏的入口程序(必须有)
+  |--game.json  小游戏的配置文件(必须有)
+  |--project.config.json  微信项目的配置文件(必须有)
+  |--Main.js  程序的主类，主要用来初始化canvas和一些全局对象，以及游戏中创建的各个对象，单击事件
+  |--res/  保存游戏中的图片
+  |--audio/  保存游戏中的音乐
+  |--js/  保存js文件
+     |--Director.js 导演类，控制游戏的逻辑和游戏对象的创建与销毁，控制游戏的主循环
+     |--base/ 
+        |--Resources.js 游戏的资源数组(图片)
+        |--DataStore.js 变量池，存储游戏中需要长期保存的变量和需要定期销毁的变量
+        |--ResourceLoader.js 资源加载器，保证游戏是在图片加载完成之后才开始主循环
+        |--Sprite.js 游戏精灵的基类，背景、地板...这些都是它的子类
+     |--runtime/
+        |--Background.js 背景图
+        |--Land.js  地板图
+        |--Pipe.js  水管的父类
+        |--UpPipe.js  上水管
+        |--DownPipe.js  下水管
+     |--player/
+        |--Birds.js 小鸟类
+        |--Score.js 分数类
+        |--StartButton.js 重新开始按钮
+
+1. 在html中定义canvas，模拟手机屏幕
+  定义Main.js的类，并导出
+  在game.js中导入Main，并创建对象
+  在HTML引入game.js，运行，查看控制台打印效果
+
+2. 加载图片资源
+  Resources.js中定义Resources，导出所有的图片(路径)
+  ResourceLoader.js中定义ResourceLoader类，加载所有的图片
+    将Resources以map的形式保存，然后遍历每一个元素，将每一个元素的value替换为对应的img对象
+    定义onloaded方法，保证所有图片都加载完成，才可以执行下一步操作(callback)
+  在Main中调用onloaded方法，回调中打印map数据
+
+3. 定义变量池
+  DataStore.js
+  定义一个单例方法getInstance，保证变量池的唯一性
+  put用于保存定期会销毁的数据
+  get用于获取数据
+  destroy用于销毁上一局的数据
+
+  Main中，加载完成后的方法里，将canvas、ctx、map直接以属性的方式保存在变量池中
+
+4. 定义Sprite类
+  构造方法中传入画图所需要的所有参数：
+    img, srcX, srcY, srcW, srcH, x, y, width, height
+  同时构造中获取ctx
+  定义draw方法，同样传入上面的参数，并添加默认值
+  使用ctx调用drawImage方法
+
+5.定义类
